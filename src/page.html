@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f6f1">
+<title>TurnFit · 家具试搬</title>
+<!-- STYLES -->
+</head>
+<body>
+<header class="masthead">
+  <div class="shell mast-inner">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"><i></i></span><strong>TurnFit</strong><span class="brand-name">家具试搬</span></div>
+    <button class="text-button help-trigger" type="button" id="open-help"><span aria-hidden="true">?</span> 使用说明</button>
+  </div>
+</header>
+<main class="shell">
+  <div class="heading">
+    <div><h1>沙发能转过这个弯吗？</h1><p>量好走廊和家具的净尺寸。下单前，先试搬一次。</p></div>
+    <button id="preset" class="button secondary" type="button"><span aria-hidden="true">↶</span> 恢复示例</button>
+  </div>
+
+  <form id="workspace" autocomplete="off" novalidate>
+    <aside class="settings surface">
+      <h2>同一条走廊</h2>
+      <p class="subtle">测量两面墙之间的净空。</p>
+
+      <fieldset>
+        <legend>入口直段</legend>
+        <div class="duo">
+          <label>净宽 <span class="number"><input data-scene="hWidth" type="number" inputmode="numeric" id="hWidth"><span>cm</span></span></label>
+          <label>直段长度 <span class="number"><input data-scene="hRun" type="number" inputmode="numeric" id="hRun"><span>cm</span></span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>出口直段</legend>
+        <div class="duo">
+          <label>净宽 <span class="number"><input data-scene="vWidth" type="number" inputmode="numeric" id="vWidth"><span>cm</span></span></label>
+          <label>直段长度 <span class="number"><input data-scene="vRun" type="number" inputmode="numeric" id="vRun"><span>cm</span></span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="gap-field">
+        <legend>预留净距</legend>
+        <label for="gap" class="sr-only">家具与墙的预留净距</label>
+        <span class="number"><input data-scene="gap" type="number" inputmode="numeric" id="gap"><span>cm</span></span>
+        <p class="subtle">家具与墙之间留出的空间。</p>
+      </fieldset>
+
+      <button class="button primary" type="submit" id="solve">对比试搬 <span aria-hidden="true">↗</span></button>
+      <p class="compute-status" role="status" id="compute-status"></p>
+      <p class="bounds-note">按水平搬运的矩形外接尺寸计算。适合直角走廊。</p>
+    </aside>
+
+    <div id="cards" class="cards" aria-label="对比家具 A 和 B"></div>
+    <template id="card-template">
+      <article class="surface item-card">
+        <div class="card-head">
+          <div class="item-heading"><span class="marker" aria-hidden="true"></span><div><h2></h2><p class="subtle item-description"></p></div></div>
+          <div class="item-dims">
+            <label>长度 <span class="number"><input type="number" inputmode="numeric" data-item="length"><span>cm</span></span></label>
+            <label>深度 <span class="number"><input type="number" inputmode="numeric" data-item="width"><span>cm</span></span></label>
+          </div>
+        </div>
+        <div class="plan-frame">
+          <canvas tabindex="0" role="img"></canvas>
+          <div class="canvas-badge"><span></span> 俯视图</div>
+        </div>
+        <div class="manual-tools">
+          <span class="key-hint">拖动试搬 · 方向键 / Q E</span>
+          <div class="manual-actions">
+            <button type="button" class="mini" data-action="left" title="逆时针旋转 5°"><span aria-hidden="true">↶</span><span class="sr-only">逆时针旋转</span></button>
+            <button type="button" class="mini" data-action="right" title="顺时针旋转 5°"><span aria-hidden="true">↷</span><span class="sr-only">顺时针旋转</span></button>
+            <button type="button" class="mini reset" data-action="reset">归位</button>
+          </div>
+        </div>
+        <p class="collision-note" role="status"></p>
+        <div class="result">
+          <div class="result-copy" role="status">
+            <strong class="verdict"></strong>
+            <p class="detail"></p>
+          </div>
+          <button class="button play" type="button" data-action="play" disabled>播放路线</button>
+        </div>
+        <div class="scrub" hidden>
+          <span aria-hidden="true">起点</span>
+          <input type="range" min="0" max="1000" value="0" disabled>
+          <span aria-hidden="true">终点</span>
+        </div>
+      </article>
+    </template>
+  </form>
+</main>
+<dialog id="help" aria-labelledby="help-title">
+  <div class="dialog-heading"><h2 id="help-title">怎么量、怎么试</h2><button type="button" class="mini" id="close-help" aria-label="关闭说明">×</button></div>
+  <ol>
+    <li>净宽是墙面之间能实际通过的宽度，量最窄处，扣掉突出的门把手、暖气片等障碍。</li>
+    <li>两段直段长度分别从拐角内侧起算，到有空间摆正家具的位置为止。用同一单位输入。</li>
+    <li>家具长度和深度填水平投影的外接长方形。用手拖动，或用方向键平移，Q / E 旋转。</li>
+  </ol>
+  <p>结果基于录入的尺寸。搜索未找到路线时，可以调整尺寸、预留净距或手动尝试。工具按水平搬运计算，高度、抬起倾斜和人在走廊里的站位需另行确认。</p>
+</dialog>
+<!-- SCRIPTS -->
+</body>
+</html>
